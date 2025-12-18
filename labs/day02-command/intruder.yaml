@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: intruder-app
+spec:
+  containers:
+  - name: nginx
+    image: nginx:alpine
+  # สังเกตว่าเราไม่ได้ใส่ tolerations อะไรเลย

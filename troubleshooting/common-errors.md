@@ -15,10 +15,12 @@
 * **อาการ:** Pod ค้างเป็นสีเหลือง ไม่ยอมรันสักที
 * **สาเหตุที่เป็นไปได้:**
     * **ทรัพยากรไม่พอ:** Node CPU/RAM เต็ม
-    * **Scheduling ไม่ได้:** ติด NodeSelector, Taint/Toleration
+    * **ติดเงื่อนไข Scheduling:**
+        * Message: `0/1 nodes are available: 1 node(s) didn't match Pod's node affinity/selector.` (หาป้าย Label ไม่เจอ)
+        * Message: `1 node(s) had untolerated taint.` (ไม่มีบัตรผ่านเข้า Node หวงห้าม)
     * **Storage:** PVC ยังไม่ได้ Bound กับ PV (หา Harddisk ไม่เจอ)
 * **วิธีแก้:**
-    * เช็ค Event: `kubectl describe pod <pod-name>` (ดูส่วน Events ท้ายสุด)
+    * เช็ค Event: `kubectl describe pod <pod-name>` (เลื่อนดูส่วน **Events** ท้ายสุด มองหาคำว่า `FailedScheduling`)
 
 ## 3. Status: `ImagePullBackOff` / `ErrImagePull`
 * **อาการ:** ดึง Image ไม่มา

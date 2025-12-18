@@ -15,10 +15,12 @@ Repository นี้ผมสร้างขึ้นเพื่อบันท
 * [02 - Networking (Service, Ingress)](concepts/02-networking.md)
 * [03 - Configuration (ConfigMap, Secret)](concepts/03-configuration.md)
 * [04 - Storage (PV, PVC)](concepts/04-storage.md)
+* [05 - Scheduling (Labels, Affinity, Taints)](concepts/05-scheduling.md)
 
 ### 🧪 [Labs (ลงมือทำจริง)](labs/)
 บันทึกการทำ Lab และแบบฝึกหัดต่างๆ
-* [Day 1 - The Survivor](labs/day01-survivor/chapter1.md)
+* [Day 1: The Survivor (Pod Lifecycle & Self-Healing)](chapters/chapter1.md)
+* [Day 2: The Commander (Scheduling, Labels, Taints & Tolerations)](chapters/chapter2.md)
 
 ### 🛠️ [Cheatsheets (โพยคำสั่ง)](cheatsheets/)
 รวมคำสั่งที่ใช้บ่อยๆ เอาไว้เปิดดูเร็วๆ เวลาลืม
