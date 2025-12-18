@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: monk-web-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: monk-web.local # <--- [1] ชื่อโดเมนที่เราอยากตั้ง?
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: monk-web-service # <--- [2] ชื่อ Service ที่เราจะส่งงานไปให้?
+                port:
+                  number: 80

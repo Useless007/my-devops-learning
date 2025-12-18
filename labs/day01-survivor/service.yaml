@@ -1,0 +1,20 @@
+# สิ่งนี้เรียกว่า service เป็นเหมือน ตัวกลาง ที่คอยรับ request จากภายนอก
+# ให้วิ่งเข้าหา pod ภายใน kube ของเรา เพราะถ้า pod ไหนมันตาย จาก deployment.yaml
+# มันจะสร้างใหม่มาเติมตลอดให้ครบตาม ที่เราใส่ใน replicas และทุกครั้งที่ pod มันตายและเกิดใหม่ ip มันจะเปลี่ยน
+# เราจึงจำเป็นต้องทำ service มาเพื่อจัดการในเรื่องนี้
+#
+# เราเช็คว่า service รันติดมั้ยด้วยการ kubectl get svc
+# service นี้ทำหน้าที่เป็น loadbalance ด้วย
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: monk-web-service
+spec:
+  type: NodePort # <--- เปิดประตูให้เข้าได้จากภายนอก Cluster (ผ่าน Port ของ Node)
+  selector:
+    app: web # <--- จุดสำคัญ! ต้องตรงกับ Label ที่เราแปะไว้ที่ Pod
+  ports:
+    - port: 80 # Port ของ Service
+      targetPort: 80 # Port ของ Container (Nginx)
+      nodePort: 30000 # <--- Port ที่เราจะใช้เข้าผ่าน Browser (30000-32767)

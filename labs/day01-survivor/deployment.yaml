@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monk-web-deploy
+spec:
+  replicas: 3 # <--- จุดที่ 1: เราอยากให้มี Pod รันพร้อมกันกี่ตัว? (ลองใส่สัก 3)
+  selector:
+    matchLabels:
+      app: web
+  template: # <--- จุดที่ 2: ตั้งแต่ตรงนี้ลงไป คือร่างอวตารของ Pod ครับ
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: nginx
+          volumeMounts: # <--- [ส่วนที่ 1] แปะทับที่โฟลเดอร์ html
+            - name: html-volume
+              mountPath: /usr/share/nginx/html
+            - name: secret-volume # [เพิ่ม] ตั้งชื่อตัวเชื่อม
+              mountPath: /etc/secret-volume # [เพิ่ม] จะเอาไปแปะไว้ที่โฟลเดอร์ไหน
+              readOnly: true # (แถม) ปกติ Secret เรามักจะให้อ่านได้อย่างเดียว แก้ไขไม่ได้
+            - name: pvc-volume
+              mountPath: /data
+          image: nginx:alpine
+          env:
+            - name: DB_PASSWORD # ชื่อตัวแปรที่แอปจะเห็น
+              valueFrom:
+                # kubectl create secret generic monk-secret --from-literal=password=TopSecret123
+                # เป็นวิธีการสร้าง secret
+                # kubectl get secret monk-secret -o yaml
+                # เป็นวิธีการเช็ค secret ที่สร้างจาก ข้างบน รหัสจะถูกเข้ารหัสแบบ base64
+                # kubectl exec <ชื่อpod> -- printenv DB_PASSWORD
+                # เป็นวิธีเช็ค env ที่อยู้ภายในpod แบบ env variable
+                secretKeyRef: # บอกว่าให้ไปดึงค่ามาจาก Secret นะ
+                  name: monk-secret # ชื่อ Secret ที่เราสร้าง
+                  key: password # คีย์ที่เราตั้งไว้ (password)
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet: # วิธีตรวจ: ยิง HTTP Request
+              path: / # ไปที่หน้าแรก
+              port: 80 # ที่ Port 80
+            initialDelaySeconds: 5 # รอ 5 วินาทีก่อนเริ่มตรวจ
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3
+      volumes: # <--- [ส่วนที่ 2] สร้าง Volume จาก ConfigMap
+        - name: html-volume
+          configMap:
+            name: monk-web-configmap
+        - name: secret-volume # [เพิ่ม] ชื่อต้องตรงกับ volumeMounts
+          secret: # <--- พระเอกของเรา
+            secretName: monk-secret # <--- ชื่อ Secret ที่เราสร้างไว้ (monk-secret)
+        - name: pvc-volume
+          persistentVolumeClaim:
+            claimName: monk-pvc

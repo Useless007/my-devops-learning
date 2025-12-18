@@ -1,0 +1,17 @@
+# แบบนี้เรียก stand alone pod
+# เราจะรันมันด้วย kubectl apply -f nginx-pod.yaml
+# kubectl get pods เพื่อเช็คสถานะว่ามันกำลังสร้างหรือรันแล้ว
+# kubectl port-forward my-monk-app 8080:80 อันนี้คือการ forward port ออกมาให้เราใช้ได้ครับ
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-monk-app # ตั้งชื่อ Pod
+  labels:
+    app: web
+spec:
+  containers:
+    - name: nginx
+      image: nginx:alpine # ใช้ Image เล็กๆ
+      ports:
+        - containerPort: 80
