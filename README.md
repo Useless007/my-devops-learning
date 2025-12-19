@@ -11,7 +11,7 @@ Repository นี้ผมสร้างขึ้นเพื่อบันท
 
 ### 🧠 [Concepts (ทฤษฎีพื้นฐาน)](concepts/)
 รวมสรุปคอนเซปต์สำคัญๆ ที่ต้องรู้ก่อนเริ่มลงมือทำ
-* [01 - Workloads (Pod, Deployment)](concepts/01-workloads.md)
+* [01 - Workloads (Pod, Deployment, Resources)](concepts/01-workloads.md)
 * [02 - Networking (Service, Ingress)](concepts/02-networking.md)
 * [03 - Configuration (ConfigMap, Secret)](concepts/03-configuration.md)
 * [04 - Storage (PV, PVC)](concepts/04-storage.md)
@@ -21,6 +21,7 @@ Repository นี้ผมสร้างขึ้นเพื่อบันท
 บันทึกการทำ Lab และแบบฝึกหัดต่างๆ
 * [Day 1: The Survivor (Pod Lifecycle & Self-Healing)](chapters/chapter1.md)
 * [Day 2: The Commander (Scheduling, Labels, Taints & Tolerations)](chapters/chapter2.md)
+* [Day 3: The Scaler (Manual Scaling, Resource Limits, Probes)](chapters/chapter3.md)
 
 ### 🛠️ [Cheatsheets (โพยคำสั่ง)](cheatsheets/)
 รวมคำสั่งที่ใช้บ่อยๆ เอาไว้เปิดดูเร็วๆ เวลาลืม
